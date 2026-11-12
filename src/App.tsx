@@ -6,7 +6,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
-type Post = { id: string; content?: string; body?: string; caption?: string; created_at?: string; user_id?: string; [key: string]: unknown };
+type Post = { id: string; content?: string; body?: string; caption?: string; created_at?: string; author_id?: string; [key: string]: unknown };
 const navItems = [{ label: 'Pulse', icon: Home }, { label: 'Discover', icon: Compass }, { label: 'Chat', icon: MessageCircle }, { label: 'Notifications', icon: Bell }, { label: 'My Space', icon: UserRound }];
 
 function AuthPanel() {
@@ -57,7 +57,7 @@ function App() {
 
   const publish = async () => {
     if (!supabase || !session || !draft.trim()) return; setPublishing(true); setNotice('');
-    const { error } = await supabase.from('posts').insert({ user_id: session.user.id, content: draft.trim() });
+    const { error } = await supabase.from('posts').insert({ author_id: session.user.id, body: draft.trim() });
     setPublishing(false);
     if (error) setNotice('Post was not published: ' + error.message);
     else { setDraft(''); setNotice('Your moment has been shared.'); await loadPosts(); }
@@ -75,7 +75,7 @@ function App() {
   <div className="section-heading"><h3>Latest moments</h3><button onClick={() => void loadPosts()}>Refresh</button></div>
   {loading && <p className="muted">Loading moments…</p>}
   {!loading && displayPosts.length === 0 && <div className="empty-state"><div className="empty-icon"><Heart/></div><h3>Your feed starts here</h3><p>When people share moments, they’ll appear here. Be the first to post something.</p></div>}
-  {displayPosts.map(post => <article className="post-card" key={post.id}><div className="post-head"><div className="avatar">L</div><div><b>LOVEOGRAM member</b><small>{post.created_at ? new Date(post.created_at).toLocaleString() : 'Just now'}</small></div><span className="post-dot">•••</span></div><p>{String(post.content ?? post.body ?? post.caption ?? 'A new moment was shared.')}</p><div className="post-actions"><button><Heart size={17}/> Like</button><button><MessageCircle size={17}/> Comment</button><button>↗ Share</button></div></article>)}
+  {displayPosts.map(post => <article className="post-card" key={post.id}><div className="post-head"><div className="avatar">L</div><div><b>LOVEOGRAM member</b><small>{post.created_at ? new Date(post.created_at).toLocaleString() : 'Just now'}</small></div><span className="post-dot">•••</span></div><p>{String(post.body ?? post.content ?? post.caption ?? 'A new moment was shared.')}</p><div className="post-actions"><button><Heart size={17}/> Like</button><button><MessageCircle size={17}/> Comment</button><button>↗ Share</button></div></article>)}
   </section><aside className="right-rail"><div className="rail-card"><span className="eyebrow">YOUR COMMUNITY</span><h3>Good connections<br/>start with hello.</h3><p>Discover people and circles that share your interests.</p><button className="outline-btn" onClick={() => setActive('Discover')}>Explore people <span>→</span></button></div><div className="rail-card soft"><Sparkles/><h3>Make it yours</h3><p>Your profile and creative space will grow with every moment you share.</p></div></aside></div></main></div>;
 }
 export default App;
