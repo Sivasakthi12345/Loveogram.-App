@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { createClient, type Session } from '@supabase/supabase-js';
 import { Heart, Home, Compass, MessageCircle, Bell, Plus, Search, Sparkles, LogOut, Image as ImageIcon, UserRound, Menu } from 'lucide-react';
 
@@ -16,7 +16,7 @@ function AuthPanel() {
   const [username, setUsername] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const submit = async (e: React.FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault(); if (!supabase) return; setBusy(true); setError('');
     const result = mode === 'signup'
       ? await supabase.auth.signUp({ email, password, options: { data: { username } } })
