@@ -3,3 +3,5 @@
 @media(max-width:650px){.page-panel{padding-bottom:30px}.member-card,.conversation-row,.notification-row{padding:13px}.profile-panel{padding-bottom:35px}.search-bar{margin-top:-7px}}
 
 .post-actions button.liked{color:#ff79bd}.comments-panel{margin:12px 0 0 34px;padding:12px;border-top:1px solid var(--line)}.comment-row{padding:8px 0;border-bottom:1px solid #ffffff10}.comment-row b{font-size:11px;color:#c49aff}.comment-row p{font-size:12px;margin:4px 0;color:#eee7f5;white-space:pre-wrap}.comment-compose{display:flex;gap:8px;margin-top:10px}.comment-compose input{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#171221;color:white;outline:0}.comment-compose .primary{padding:9px 13px}
+
+.resend-link{display:block;margin:10px auto 14px;border:0;background:transparent;color:#c49aff;font-size:12px;text-decoration:underline;cursor:pointer}.resend-link:disabled{opacity:.45;cursor:not-allowed}
